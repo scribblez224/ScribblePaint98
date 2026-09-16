@@ -10,12 +10,23 @@ const brushColorInput = document.getElementById("brushColor")
 const penButton = document.getElementById("pen");
 const eraserButton = document.getElementById("eraser");
 
+const undoButton = document.getElementById("undo");
+const redoButton = document.getElementById("redo");
+
+
+let undoStack = [];
+let redoStack = [];
+
 canvas.width = canvas.clientWidth;
 canvas.height = canvas.clientHeight;
+
+undoStack.push(ctx.getImageData(0,0, canvas.width, canvas.height));
+
 
 let brushColor = "black";
 let isDrawing = false;
 let isErasing = false;
+
 
 let brushSize = 5;
 brushSizeInput.addEventListener("input", (event) => {
@@ -32,6 +43,28 @@ penButton.addEventListener("click", () => {
 });
 eraserButton.addEventListener("click", () => {
     isErasing = true;
+});
+
+undoButton.addEventListener("click", () => {
+    if (undoStack.length > 1) {
+        const currentState = undoStack.pop();
+        redoStack.push(currentState);
+
+        const previousState = undoStack[undoStack.length - 1];
+
+        ctx.putImageData(previousState, 0, 0);
+    }
+    });
+
+redoButton.addEventListener("click", () => {
+    if (redoStack.length > 0) {
+        const nextState = redoStack.pop();
+
+        undoStack.push(nextState);
+
+        ctx.putImageData(nextState, 0, 0);
+    }
+
 });
 
 canvas.addEventListener("mousedown", (event) => {
@@ -57,6 +90,8 @@ canvas.addEventListener("mousedown", (event) => {
 canvas.addEventListener("mouseup", () => {
     isDrawing = false;
     ctx.closePath();
+
+    undoStack.push(ctx.getImageData (0, 0, canvas.width, canvas.height));
 });
 
 canvas.addEventListener("mousemove", (event) => {
