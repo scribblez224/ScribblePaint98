@@ -1,0 +1,42 @@
+body {
+    margin: 0;     
+    background-color: #001233; 
+}
+
+h1  {     
+    text-align: center;     
+    font-family: Arial, sans-serif;     
+    color: white; 
+} 
+
+#paintCanvas{     
+    width: 80vw;     
+    height: 75vh;     
+    background-color: white;     
+    display: block;     
+    margin: 0 auto; 
+} 
+
+label[for="brushSize"] {     
+    margin-left: 124px;
+    color: white; 
+}
+
+label[for="brushColor"] {     
+    color: white; 
+}
+
+#brushColor {     
+    width: 125px;     
+    height: 20px; 
+} 
+
+.brush-size-control {     
+    display: inline-block;     
+    text-align: center; 
+} 
+
+#brushSizeValue {     
+    color: white;    
+    margin-bottom: 3px; 
+}
